@@ -1271,7 +1271,7 @@ function IsWarcrySpAtk()
     if style == HAND_LEFT_BOTH then
         offset = 50
     end
-    local buff = {1062301, 1062311, 1070101, 1070111, 1070401, 1070411, 1070501, 1070511, 1080001, 1080011, 1080601, 1080611, 1081001, 1081011, 1083201, 1092401, 1092411, 1080701, 1080711, 1080801, 1080811, 1080101, 1080111, 1080901, 1080911, 1081101, 1081111, 1081201, 1081211}
+    local buff = {1062301, 1062311, 1070101, 1070111, 1070401, 1070411, 1070501, 1070511, 1080001, 1080011, 1080601, 1080611, 1081001, 1081011, 1083201, 1092401, 1092411, 1080701, 1080711, 1080801, 1080811, 1080101, 1080111, 1080901, 1080911, 1081101, 1081111, 1081201, 1081211, 1081301, 1081351}
     for local0 = 1, #buff, 1 do
         if env(1116, buff[local0] + offset) == TRUE then
             return TRUE
@@ -1443,64 +1443,48 @@ function ExecGuard(event, blend_type)
                 if IsCannon() == TRUE then
                     if 80 > env(1001) then
                         l1 = "W_AttackLeftHeavy2"
-                    else
-                        act(2002, 113005) -- FP Pause
                     end
                 end
                 
                 if IsChurchCannon() == TRUE then
                     if 80 > env(1001) then
                         l1 = "W_AttackLeftHeavy2"
-                    else
-                        act(2002, 113005) -- FP Pause
                     end
                 end
                 
                 if IsHunterPistol() == TRUE then
                     if 30 > env(1001) then
                         l1 = "W_AttackLeftHeavy2"
-                    else
-                        act(2002, 113003) -- FP Pause
                     end
                 end
                 
                 if IsRepeatingPistol() == TRUE then
                     if 35 > env(1001) then
                         l1 = "W_AttackLeftHeavy2"
-                    else
-                        act(2002, 113003) -- FP Pause
                     end
                 end
                 
                 if IsEvelynn() == TRUE then
                     if 40 > env(1001) then
                         l1 = "W_AttackLeftHeavy2"
-                    else
-                        act(2002, 113003) -- FP Pause
                     end
                 end
                 
                 if IsBlunderbuss() == TRUE then
                     if 50 > env(1001) then
                         l1 = "W_AttackLeftHeavy2"
-                    else
-                        act(2002, 113005) -- FP Pause
                     end
                 end
                 
                 if IsRosamarinus() == TRUE then
                     if 15 > env(1001) then
                         l1 = "W_AttackLeftHeavy2"
-                    else
-                        act(2002, 113003) -- FP Pause
                     end
                 end
                 
                 if IsFistOfGratia() == TRUE then
                     if 60 > env(1001) then
                         l1 = "W_AttackLeftHeavy2"
-                    else
-                        act(2002, 113005) -- FP Pause
                     end
                 end
                 
@@ -1512,6 +1496,9 @@ function ExecGuard(event, blend_type)
                     act(2002, 112450)
                 end
                 
+                -- FP Pause
+                act(2002, 113002) 
+                        
                 ExecEventAllBody(l1)
                 
                 return FALSE
@@ -1698,16 +1685,18 @@ function ExecAttack(r1, r2, l1, l2, b1, b2, is_guard, blend_type, artsr1, artsr2
         end
     end
     
+    -- Restraint: Kick
+    if env(1116, 112925) == TRUE then
+        if request == ATTACK_REQUEST_LIGHT_KICK or request == ATTACK_REQUEST_HEAVY_KICK then
+            return ATTACK_REQUEST_INVALID
+        end
+    end
+    
     -----------------------
     -- Shatter
     -----------------------
     local shatter_chance = 0
     local roll = math.random(0, 100)
-    
-    -- Luck Mastery
-    if env(1116, 112401) == TRUE then
-        shatter_chance = shatter_chance + 5
-    end
     
     -- Old Man's Gambit
     if IsOldMansGambit() == TRUE then
@@ -1745,6 +1734,11 @@ function ExecAttack(r1, r2, l1, l2, b1, b2, is_guard, blend_type, artsr1, artsr2
         end
     end
     
+    -- Twin Princes Boon
+    if env(1116, 112592) == TRUE then
+        shatter_chance = shatter_chance + 2
+    end
+    
     -- Apply Shatter if lucky
     if roll < shatter_chance then
          act(2002, 113510)
@@ -1769,6 +1763,84 @@ function ExecAttack(r1, r2, l1, l2, b1, b2, is_guard, blend_type, artsr1, artsr2
         b2 = "W_AttackBothHeavy1Start"
     end
     
+    -----------------------
+    -- Rings
+    -----------------------
+    -- Ring of Blades
+    if env(1116, 115000) == TRUE then
+        act(2002, 115010)
+    elseif env(1116, 115001) == TRUE then
+        act(2002, 115011)
+    elseif env(1116, 115002) == TRUE then
+        act(2002, 115012)
+    elseif env(1116, 115003) == TRUE then
+        act(2002, 115013)
+    elseif env(1116, 115004) == TRUE then
+        act(2002, 115014)
+    elseif env(1116, 115005) == TRUE then
+        act(2002, 115015)
+    end
+    
+    -- Sigil of Magic
+    if env(1116, 115020) == TRUE then
+        act(2002, 115030)
+    elseif env(1116, 115021) == TRUE then
+        act(2002, 115031)
+    elseif env(1116, 115022) == TRUE then
+        act(2002, 115032)
+    elseif env(1116, 115023) == TRUE then
+        act(2002, 115033)
+    elseif env(1116, 115024) == TRUE then
+        act(2002, 115034)
+    elseif env(1116, 115025) == TRUE then
+        act(2002, 115035)
+    end
+    
+    -- Sigil of Flame
+    if env(1116, 115040) == TRUE then
+        act(2002, 115050)
+    elseif env(1116, 115041) == TRUE then
+        act(2002, 115051)
+    elseif env(1116, 115042) == TRUE then
+        act(2002, 115052)
+    elseif env(1116, 115043) == TRUE then
+        act(2002, 115053)
+    elseif env(1116, 115044) == TRUE then
+        act(2002, 115054)
+    elseif env(1116, 115045) == TRUE then
+        act(2002, 115055)
+    end
+    
+    -- Sigil of Thunder
+    if env(1116, 115060) == TRUE then
+        act(2002, 115070)
+    elseif env(1116, 115061) == TRUE then
+        act(2002, 115071)
+    elseif env(1116, 115062) == TRUE then
+        act(2002, 115072)
+    elseif env(1116, 115063) == TRUE then
+        act(2002, 115073)
+    elseif env(1116, 115064) == TRUE then
+        act(2002, 115074)
+    elseif env(1116, 115065) == TRUE then
+        act(2002, 115075)
+    end
+    
+    -- Sigil of Darkness
+    if env(1116, 115080) == TRUE then
+        act(2002, 115090)
+    elseif env(1116, 115081) == TRUE then
+        act(2002, 115091)
+    elseif env(1116, 115082) == TRUE then
+        act(2002, 115092)
+    elseif env(1116, 115083) == TRUE then
+        act(2002, 115093)
+    elseif env(1116, 115084) == TRUE then
+        act(2002, 115094)
+    elseif env(1116, 115085) == TRUE then
+        act(2002, 115095)
+    end
+    
     --------------------------------------------
     -- R1
     --------------------------------------------
@@ -1784,7 +1856,7 @@ function ExecAttack(r1, r2, l1, l2, b1, b2, is_guard, blend_type, artsr1, artsr2
 				hand = HAND_LEFT
 		end				
 		local sp_kind = env("装備武器特殊カテゴリ番号取得", hand)		
-        if sp_kind == 752 then
+        if sp_kind == 752 or sp_kind == 754 then
             if r1 == "W_AttackRightLight1" then
                 r1 = "W_AttackRightLight1Alt"
             elseif r1 == "W_AttackRightLightDash" then
@@ -1837,7 +1909,7 @@ function ExecAttack(r1, r2, l1, l2, b1, b2, is_guard, blend_type, artsr1, artsr2
             end
         end
 		
-		if sp_kind == 752 then
+		if sp_kind == 752 or sp_kind == 754 then
             if r2 == "W_AttackRightHeavy1Start" then
                 r2 = "W_AttackRightHeavy1StartAlt"
             elseif r2 == "W_AttackRightHeavy1SubStart" then
@@ -1905,7 +1977,7 @@ function ExecAttack(r1, r2, l1, l2, b1, b2, is_guard, blend_type, artsr1, artsr2
 				hand = HAND_LEFT
 		end				
 		local sp_kind = env("装備武器特殊カテゴリ番号取得", hand)		
-        if sp_kind == 752 then
+        if sp_kind == 752 or sp_kind == 754 or sp_kind == 751 then
             if b1 == "W_AttackBothLight1" then
                 b1 = "W_AttackBothLight1Alt"
             elseif b1 == "W_AttackBothDash" then
@@ -1946,7 +2018,7 @@ function ExecAttack(r1, r2, l1, l2, b1, b2, is_guard, blend_type, artsr1, artsr2
         
 		local sp_kind = env("装備武器特殊カテゴリ番号取得", hand)	
         
-        if IsWarcrySpAtk() == TRUE or sp_kind == 738 or sp_kind == 739 or sp_kind == 740 or sp_kind == 741 or sp_kind == 600 or sp_kind == 717 or sp_kind == 718 or sp_kind == 743 or sp_kind == 745 or sp_kind == 747 or sp_kind == 711 or sp_kind == 750 then
+        if IsWarcrySpAtk() == TRUE or sp_kind == 738 or sp_kind == 739 or sp_kind == 740 or sp_kind == 741 or sp_kind == 600 or sp_kind == 717 or sp_kind == 718 or sp_kind == 743 or sp_kind == 745 or sp_kind == 747 or sp_kind == 711 then
             if b2 == "W_AttackBothHeavy1Start" then
                 b2 = "W_AttackBothHeavySpecial1Start"
             elseif b2 == "W_AttackBothHeavy1SubStart" then
@@ -1964,7 +2036,7 @@ function ExecAttack(r1, r2, l1, l2, b1, b2, is_guard, blend_type, artsr1, artsr2
             end
         end
 		
-		if sp_kind == 752 then
+		if sp_kind == 752 or sp_kind == 754 or sp_kind == 750 or sp_kind == 751 then
             if b2 == "W_AttackBothHeavy1Start" then
                 b2 = "W_AttackBothHeavy1StartAlt"
             elseif b2 == "W_AttackBothHeavy1SubStart" then
@@ -3417,10 +3489,10 @@ function ExecItem(quick_type, blend_type)
     ----------------------
     -- FP Pause
     ----------------------
-    act(2002, 113003)
+    act(2002, 113001)
     
     if item_type == ITEM_THROW_KNIFE or item_type == ITEM_THROW_BOTTLE or item_type == ITEM_QUICK_THROW_KNIFE or item_type == ITEM_QUICK_THROW_BOTTLE then
-        act(2002, 113005) -- Longer pause for the throwables
+        act(2002, 113002) -- Longer pause for the throwables
     end
     
     if IsNodeActive("ItemDrinking_Upper_CMSG") == TRUE then
@@ -3706,7 +3778,7 @@ function ExecLadderItem(hand)
     local item_type = env(231) -- GetItemAnimType
     
     -- FP Pause
-    act(2002, 113003)
+    act(2002, 113001)
     
     local event = "W_ItemLadderInvalid"
     local event_hand = "Left"
@@ -4027,6 +4099,14 @@ function ExecEvasion(backstep_limit, estep, is_usechainrecover)
     
     -- Rolling
     if request == ATTACK_REQUEST_ROLLING then
+        -- Restraint: Roll
+        if env(1116, 112920) == TRUE then
+            return FALSE
+        end
+        
+        -- Trigger: Roll
+        act(2002, 112930)
+        
         -- Ring of Momentum/BB Dash override
         if IsRingOfMomentum() == TRUE or IsBBDashWeapon() == TRUE then 
             local index = GetWeightIndex(FALSE)
@@ -4191,9 +4271,25 @@ function ExecEvasion(backstep_limit, estep, is_usechainrecover)
         AddStamina(c_StaminaCostRolling)
         ExecEventAllBody(event)
     elseif request == ATTACK_REQUEST_JUMP then
+        -- Restraint: Jump
+        if env(1116, 112924) == TRUE then
+            return FALSE
+        end
+        
+        -- Trigger: Jump
+        act(2002, 112931)
+        
         AddStamina(c_StaminaCostJump)
         ExecEventAllBody("W_Jump")
     elseif request == ATTACK_REQUEST_BACKSTEP then
+        -- Restraint: Backstep
+        if env(1116, 112923) == TRUE then
+            return FALSE
+        end
+        
+        -- Trigger: Backstep
+        act(2002, 112932)
+        
         ResetDamageCount()
         local index = GetWeightIndex(FALSE)
         local event = "W_BackStepLight"
@@ -4766,14 +4862,16 @@ function ExecDamage(is_parry, is_attackwhileguard)
         end
     end
     
+    -- Cursed Ring of Vengeance
+    if env(1116, 115100) == TRUE then
+        if is_damaged == TRUE then
+            act(2002, 115101)
+        end
+    end
+    
     -- Redeye Ring
     if env(1116, 112520) == TRUE then
         act(2002, 112521)
-    end
-    
-    if env(1116, 31) == TRUE and env(1116, 112910) == TRUE then
-        ExecEventAllBody("W_DamageParry")
-        return TRUE
     end
     
     if damage_type == DAMAGE_TYPE_PARRY then
@@ -4970,11 +5068,16 @@ function ExecDamage(is_parry, is_attackwhileguard)
     
     -- Fake Poise System --
     if env(1007) == TRUE then -- IsCOMPlayer
-        if is_damaged == TRUE then -- Is hit
+        if is_damaged == TRUE and damage_level ~= DAMAGE_LEVEL_NONE then -- Is hit by attack that isn't set to Damage Level 0
             -- Skip if already in stagger state
             if env(1116, 112300) == FALSE then 
+                -- No Stagger Threshold
+                if env(1116, 112351) == FALSE and env(1116, 112352) == FALSE and env(1116, 112353) == FALSE then
+                    act(2002, 112300) -- Easy stagger
+                end
+                
                 -- Stagger Threshold: 1
-                if env(1116, 112350) == TRUE then
+                if env(1116, 112351) == TRUE then
                     if env(1116, 112301) == FALSE then
                         act(2002, 112301) -- Hit 1
                     elseif env(1116, 112301) == TRUE then
@@ -4983,7 +5086,7 @@ function ExecDamage(is_parry, is_attackwhileguard)
                 end
                 
                 -- Stagger Threshold: 2
-                if env(1116, 112351) == TRUE then
+                if env(1116, 112352) == TRUE then
                     if env(1116, 112301) == FALSE then
                         act(2002, 112301) -- Hit 1
                     elseif env(1116, 112301) == TRUE and env(1116, 112302) == FALSE then
@@ -4994,19 +5097,6 @@ function ExecDamage(is_parry, is_attackwhileguard)
                 end
                 
                 -- Stagger Threshold: 3
-                if env(1116, 112352) == TRUE then
-                    if env(1116, 112301) == FALSE then
-                        act(2002, 112301) -- Hit 1
-                    elseif env(1116, 112301) == TRUE and env(1116, 112302) == FALSE then
-                        act(2002, 112302) -- Hit 2
-                    elseif env(1116, 112302) == TRUE and env(1116, 112303) == FALSE then
-                        act(2002, 112303) -- Hit 3
-                    elseif env(1116, 112303) == TRUE then
-                        act(2002, 112300) -- Easy stagger
-                    end
-                end
-                
-                -- Stagger Threshold: 4
                 if env(1116, 112353) == TRUE then
                     if env(1116, 112301) == FALSE then
                         act(2002, 112301) -- Hit 1
@@ -5014,9 +5104,7 @@ function ExecDamage(is_parry, is_attackwhileguard)
                         act(2002, 112302) -- Hit 2
                     elseif env(1116, 112302) == TRUE and env(1116, 112303) == FALSE then
                         act(2002, 112303) -- Hit 3
-                    elseif env(1116, 112303) == TRUE and env(1116, 112304) == FALSE then
-                        act(2002, 112304) -- Hit 4
-                    elseif env(1116, 112304) == TRUE then
+                    elseif env(1116, 112303) == TRUE then
                         act(2002, 112300) -- Easy stagger
                     end
                 end
@@ -7427,6 +7515,21 @@ function Rolling_onUpdate()
         end
     end
     
+    -- Devil's Trumpet
+    if env(1116, 116200) == TRUE then
+        base_move_mult = base_move_mult + 1.0
+    end 
+    
+    -- Trio of Explorers Boon
+    if env(1116, 112594) == TRUE then
+        base_move_mult = base_move_mult + 0.2
+    end
+    
+    -- Yhorm Malus
+    if env(1116, 112620) == TRUE then
+        base_move_mult = 0.25
+    end
+    
     act(2001, math.abs(base_move_mult + addratio * math.abs(math.sin(math.rad(2 * rolling_angle)))))
     
     if sp_kind == 272 then
@@ -7517,6 +7620,21 @@ function RollingSelftrans_onUpdate()
         end
     end
     
+    -- Devil's Trumpet
+    if env(1116, 116200) == TRUE then
+        base_move_mult = base_move_mult + 1.0
+    end 
+    
+    -- Trio of Explorers Boon
+    if env(1116, 112594) == TRUE then
+        base_move_mult = base_move_mult + 0.2
+    end
+    
+    -- Yhorm Malus
+    if env(1116, 112620) == TRUE then
+        base_move_mult = 0.25
+    end
+    
     act(2001, math.abs(base_move_mult + addratio * math.abs(math.sin(math.rad(2 * rolling_angle)))))
     
     if EvasionCommonFunction(FALL_TYPE_DEFAULT, "W_AttackRightLightStep", "W_AttackRightHeavy2Start", "W_AttackLeftLight1", "W_AttackLeftHeavy1", "W_AttackBothLightStep", "W_AttackBothHeavy2Start") == TRUE then
@@ -7539,21 +7657,22 @@ function BackStep_onUpdate()
     local b2 = "W_AttackBothHeavy1Start"
     local hand = HAND_RIGHT
     local style = c_Style
+    local base_move_mult = 1.0
     
     -- Ring of Retreat
     if IsRingOfRetreat() == TRUE then 
         if env(1116, 112530) == TRUE then
-            act(2001, 1.15)
+            base_move_mult = base_move_mult + 0.15
         elseif env(1116, 112531) == TRUE then
-            act(2001, 1.3)
+            base_move_mult = base_move_mult + 0.3
         elseif env(1116, 112532) == TRUE then
-            act(2001, 1.5)
+            base_move_mult = base_move_mult + 0.5
         elseif env(1116, 112533) == TRUE then
-            act(2001, 1.65)
+            base_move_mult = base_move_mult + 0.65
         elseif env(1116, 112534) == TRUE then
-            act(2001, 1.8)
+            base_move_mult = base_move_mult + 0.8
         elseif env(1116, 112535) == TRUE then
-            act(2001, 2)
+            base_move_mult = base_move_mult + 1.0
         end
     end
     
@@ -7583,6 +7702,8 @@ function BackStep_onUpdate()
         end
     end
     
+    act(2001, base_move_mult)
+    
     if style == HAND_LEFT_BOTH then
         hand = HAND_LEFT
     end
@@ -7606,21 +7727,38 @@ function Jump_onActivate()
 end
 
 function Jump_onUpdate()
+    local base_distance_adjustment = 1.0
+    
     -- Bell of Grace
     if IsBellOfGrace() == TRUE then 
         if env(1116, 112550) == TRUE then
-            act(2001, 1.75)
+            base_distance_adjustment = base_distance_adjustment + 0.75
         elseif env(1116, 112551) == TRUE then
-            act(2001, 2)
+           base_distance_adjustment = base_distance_adjustment + 1
         elseif env(1116, 112552) == TRUE then
-            act(2001, 2.25)
+            base_distance_adjustment = base_distance_adjustment + 1.25
         elseif env(1116, 112553) == TRUE then
-            act(2001, 2.5)
+            base_distance_adjustment = base_distance_adjustment + 1.5
         elseif env(1116, 112554) == TRUE then
-            act(2001, 2.75)
+            base_distance_adjustment = base_distance_adjustment + 1.75
         elseif env(1116, 112555) == TRUE then
-            act(2001, 3)
+            base_distance_adjustment = base_distance_adjustment + 2
         end
+    end
+    
+    -- Weapon Jump Boost
+    if env(1116, 112591) == TRUE then
+        base_distance_adjustment = base_distance_adjustment + 0.25
+    end
+    
+    -- Moonflower
+    if env(1116, 116300) == TRUE then
+        base_distance_adjustment = base_distance_adjustment + 5.0
+    end
+    
+    -- Apply root motion modifier
+    if base_distance_adjustment > 1.0 then
+        act(2001, base_distance_adjustment)
     end
     
     if EvasionCommonFunction(FALL_TYPE_JUMP, "W_AttackRightLightStep", "W_AttackRightHeavy2Start", "W_AttackLeftLight1", "W_AttackLeftHeavy1", "W_AttackBothLightStep", "W_AttackBothHeavy2Start") == TRUE then
@@ -7757,6 +7895,21 @@ function Move_onUpdate()
         end
     end
     
+    -- Relic of Swiftness
+    if env(1116, 112570) == TRUE then
+        base_move_mult = base_move_mult + 0.5
+    end
+    
+    -- Weapon Movement Speed Boost
+    if env(1116, 112590) == TRUE then
+        base_move_mult = base_move_mult + 0.1
+    end
+    
+    -- Tailwind
+    if env(1116, 112800) == TRUE or env(1116, 112801) == TRUE then
+        base_move_mult = base_move_mult + 0.2
+    end
+    
     -- Fool's Sigil
     if IsFoolsSigil() == TRUE then
         -- Randomise movement speed
@@ -7781,6 +7934,11 @@ function Move_onUpdate()
         elseif env(1116, 114109) == TRUE then
             base_move_mult = base_move_mult + 0.5
         end
+    end
+    
+    -- Nameless King Malus
+    if env(1116, 112621) == TRUE then
+        base_move_mult = base_move_mult - 0.5
     end
     
     act(2001, base_move_mult)
@@ -8613,12 +8771,27 @@ function AttackRightHeavySpecial1SubStart_onUpdate()
         act("特殊補間設定", 0, TRUE) -- Special interpolation setting
         ExecEventAllBody("W_AttackRightHeavySpecial1Start")
         return 
+    elseif env(1108, ACTION_ARM_R2) <= 0 and env(1116, 100711) == TRUE then -- ActionDuration 
+        ExecEventAllBody("W_AttackRightHeavySpecial2End")
+        return
+    elseif env(1116, 100712) == TRUE then
+        ExecEventAllBody("W_AttackRightHeavySpecial2Start")
+        return  
     else
         return 
     end
 end
 
 function AttackRightHeavySpecial1Start_onUpdate()
+    local hand = HAND_RIGHT
+    local style = c_Style
+    if style == HAND_LEFT_BOTH then
+        hand = HAND_LEFT
+    end
+	local sp_kind = env("装備武器特殊カテゴリ番号取得", hand)
+	if sp_kind == 177 then
+        act(2001, 1.5)
+    end	
     act("特殊補間設定", 0, FALSE) -- Special interpolation setting
     if AttackCommonFunction("W_AttackRightLight1", "W_AttackRightHeavy2Start", "W_AttackLeftLight1", "W_AttackLeftHeavy1", "W_AttackBothLight1", "W_AttackBothHeavy2Start", FALSE, TRUE) == TRUE then
         return 
@@ -8955,6 +9128,9 @@ function AttackBothLeft1_onUpdate()
 	
     if AttackCommonFunction("W_AttackRightLight2", "W_AttackRightHeavy1Start", "W_AttackBothLeft2", "W_AttackLeftHeavy1", b1, "W_AttackBothHeavy1Start", FALSE, TRUE) == TRUE then
         return 
+    elseif env(1116, 100710) == TRUE then
+        ExecEventAllBody("W_AttackBothHeavySpecial1SubStart")
+        return 	 
     else
         return 
     end
@@ -9150,8 +9326,17 @@ function AttackBothHeavySpecial1SubStart_onUpdate()
         act("特殊補間設定", 0, TRUE)
         ExecEventAllBody("W_AttackBothHeavySpecial1Start")
         return 
-    else
-        return 
+    elseif env(1108, ACTION_ARM_L1) <= 0 and env(1116, 100711) == TRUE then -- ActionDuration 
+        ExecEventAllBody("W_AttackBothHeavySpecial2End")
+        return 		
+    elseif env(1116, 100712) == TRUE then
+        ExecEventAllBody("W_AttackBothHeavySpecial2Start")
+        return 		
+    elseif env(1108, ACTION_ARM_R2) <= 0 and env(1116, 100713) == TRUE then -- ActionDuration 
+        ExecEventAllBody("W_AttackBothHeavy1EndAlt")
+        return 		
+    elseif env(1116, 100714) == TRUE then
+        ExecEventAllBody("W_AttackBothDashSpecial")
     end
 end
 
@@ -9165,14 +9350,15 @@ function AttackBothHeavySpecial1Start_onUpdate()
     if style == HAND_LEFT_BOTH then
         hand = HAND_LEFT
     end
-
     local sp_kind = env("装備武器特殊カテゴリ番号取得", hand)
 	
 	if sp_kind == 604 then
 		b1 = "W_AttackBothHeavySpecial1End"
 		l1 = "W_AttackBothHeavySpecial2End"
 	end
-	
+	if sp_kind == 177 then
+        act(2001, 1.5)
+    end		
     act("特殊補間設定", 0, FALSE)
     if AttackCommonFunction("W_AttackRightLight1", "W_AttackRightHeavy1Start", l1, "W_AttackLeftHeavy1", b1, "W_AttackBothHeavy2Start", FALSE, TRUE) == TRUE then
         return 
@@ -9356,8 +9542,12 @@ function AttackBothDashSpecial_onUpdate()
     local hand = HAND_RIGHT
     local sp_kind = env("装備武器特殊カテゴリ番号取得", hand)
     
-    if sp_kind == 600 or sp_kind == 743 or sp_kind == 745 or sp_kind == 747 or sp_kind == 270 or sp_kind == 750 then
+    if sp_kind == 600 or sp_kind == 743 or sp_kind == 745 or sp_kind == 747 or sp_kind == 270 then
         b2 = "W_AttackBothHeavy2Start"
+    end	
+	
+    if sp_kind == 750 or sp_kind == 751 then
+        b2 = "W_AttackBothHeavy2StartAlt"
     end	
 	
     if AttackCommonFunction("W_AttackRightLight1", "W_AttackRightHeavy1Start", "W_AttackBothLeft1", "W_AttackLeftHeavy1", "W_AttackBothLight1", b2, FALSE, TRUE) == TRUE then
@@ -10425,7 +10615,10 @@ function DrawStanceRightAttackLight_onUpdate()
         r2 = "W_DrawStanceRightAttackHeavy"
         b2 = "W_DrawStanceRightAttackHeavy"
         is_artsr2 = TRUE
-    end
+    end			
+	if sp_kind == 747 then
+        act(2001, 1.3)
+    end		
     if SwordArtsCommonFunction(r1, r2, "W_AttackLeftLight1", "W_AttackLeftHeavy1", b1, b2, FALSE, is_artsr1, is_artsr2, GEN_TRANS_LEFT) == TRUE then
         return 
 	elseif env(1116, 100743) == TRUE then
@@ -10728,6 +10921,12 @@ function DrawStanceRightAttackHeavy_onUpdate()
         b2 = nil
         is_artsr1 = TRUE
     end
+	if sp_kind == 146 then
+        act(2001, 1.5)
+    end		
+	if sp_kind == 747 then
+        act(2001, 1.3)
+    end			
     if SwordArtsCommonFunction(r1, r2, "W_AttackLeftLight1", "W_AttackLeftHeavy1", b1, b2, FALSE, is_artsr1, is_artsr2, GEN_TRANS_LEFT) == TRUE then
         return 
     elseif env(1116, 100450) == TRUE then
@@ -11397,6 +11596,15 @@ function SpinAttack_Activate()
 end
 
 function AttackSpinLight_onUpdate()
+    local hand = HAND_RIGHT
+    local style = c_Style
+    if style == HAND_LEFT_BOTH then
+        hand = HAND_LEFT
+    end
+	local sp_kind = env("装備武器特殊カテゴリ番号取得", hand)
+	if sp_kind == 226 then
+        act(2001, 1.5)
+    end			
     if SwordArtsCommonFunction("W_AttackRightLight1", "W_AttackRightHeavy1Start", "W_AttackLeftLight1", "W_AttackLeftHeavy1", "W_AttackBothLight1", "W_AttackBothHeavy1Start", FALSE, FALSE, FALSE, GEN_TRANS_LEFT) == TRUE then
         return 
     elseif env("アニメ終了か", 1) == TRUE then
@@ -11419,6 +11627,11 @@ function AttackSpinHeavy_onUpdate()
     if style == HAND_LEFT_BOTH then
         hand = HAND_LEFT
     end
+	local sp_kind = env("装備武器特殊カテゴリ番号取得", hand)	
+    if sp_kind == 733 then
+        r1 = "W_AttackRightLight3"	
+        b1 = "W_AttackBothLight3"
+    end		
     local kind = env(225, hand)
     if kind == WEAPON_CATEGORY_CURVEDSWORD then
         local sp_kind = env("装備武器特殊カテゴリ番号取得", hand)
@@ -11437,9 +11650,10 @@ function AttackSpinHeavy_onUpdate()
         is_artsr1 = TRUE
     end
     if env(1116, 100595) == TRUE then
+	    SetSwordArtsPointInfo(ACTION_ARM_R2, TRUE)
         r2 = "W_AttackSpinLoop"
         b2 = "W_AttackSpinLoop"
-    end			
+    end		
     if SwordArtsCommonFunction(r1, r2, "W_AttackLeftLight1", "W_AttackLeftHeavy1", b1, b2, FALSE, is_artsr1, FALSE, GEN_TRANS_LEFT) == TRUE then
         return 
     elseif env(1116, 100240) == TRUE and 0 < env(1108, ACTION_ARM_R2) and 0 < env(1001) then
@@ -11465,7 +11679,7 @@ function AttackSpinHeavyL_onUpdate()
     local style = c_Style
     if style == HAND_LEFT_BOTH then
         hand = HAND_LEFT
-    end
+    end	
     local kind = env(225, hand)
     if kind == WEAPON_CATEGORY_CURVEDSWORD then
         local sp_kind = env("装備武器特殊カテゴリ番号取得", hand)
@@ -11482,7 +11696,7 @@ function AttackSpinHeavyL_onUpdate()
         r1 = "W_AttackSpinLight"
         b1 = "W_AttackSpinLight"
         is_artsr1 = TRUE
-    end
+    end	
     if SwordArtsCommonFunction(r1, r2, "W_AttackLeftLight1", "W_AttackLeftHeavy1", b1, b2, FALSE, is_artsr1, FALSE, GEN_TRANS_LEFT) == TRUE then
         return 
     elseif env(1116, 100240) == TRUE and 0 < env(1108, ACTION_ARM_R2) and 0 < env(1001) then
@@ -11696,6 +11910,7 @@ function EndureRightHeavy_onUpdate()
     if env(1116, 100591) == TRUE then
         r2 = "W_AttackSpinLoop"
         b2 = "W_AttackSpinLoop"	
+        SetSwordArtsPointInfo(ACTION_ARM_L2, TRUE)		
     end	
 	
     if env(1116, 100290) == TRUE then
@@ -12551,7 +12766,7 @@ function FourWayAttackStart_onUpdate()
     local r2 = "W_FourWayAttackHeavy"
     local b2 = "W_FourWayAttackHeavy"
     local sp_kind = env("装備武器特殊カテゴリ番号取得", c_SwordArtsHand)
-    if sp_kind == 263 or sp_kind == 277 then
+    if sp_kind == 263 or sp_kind == 277 or sp_kind == 755 then
         r1 = "W_FourWayAttackLight"
         b1 = "W_FourWayAttackLight"
     end
@@ -12599,7 +12814,7 @@ function FourWayAttackStart_SelfTrans_onUpdate()
     local r2 = "W_FourWayAttackHeavy"
     local b2 = "W_FourWayAttackHeavy"
     local sp_kind = env("装備武器特殊カテゴリ番号取得", c_SwordArtsHand)
-    if sp_kind == 263 or sp_kind == 277 then
+    if sp_kind == 263 or sp_kind == 277 or sp_kind == 755 then
         r1 = "W_FourWayAttackLight"
         b1 = "W_FourWayAttackLight"
     end
@@ -12631,6 +12846,21 @@ function FourWayAttackLight_onUpdate()
 end
 
 function FourWayAttackHeavy_onUpdate()
+    local hand = HAND_RIGHT
+    local style = c_Style
+    
+    if style == HAND_LEFT_BOTH then
+        hand = HAND_LEFT
+    end
+    local sp_kind = env("装備武器特殊カテゴリ番号取得", hand)
+	if sp_kind == 754 then
+        act(2001, 2)
+    end	
+	
+	if sp_kind == 755 then
+        act(2001, 1.5)
+    end		
+	
     if SwordArtsCommonFunction("W_AttackRightLight1", "W_AttackRightHeavy1Start", "W_AttackLeftLight1", "W_AttackLeftHeavy1", "W_AttackBothLight1", "W_AttackBothHeavy1Start", FALSE, TRUE, TRUE, GEN_TRANS_LEFT) == TRUE then
         return 
     elseif env("アニメ終了か", 1) == TRUE then
@@ -13947,6 +14177,7 @@ function MagicLaunchRight_Upper_onUpdate()
             if 0 < env(1108, button) then
                 -- Generic Hold Magic
                 local magic_type = env(227)
+                
                 if magic_type == 0 or magic_type == 5 or magic_type == 8 or magic_type == 9 or magic_type == 12 or magic_type == 18 or magic_type == 19 or magic_type == 22 or magic_type == 25 or magic_type == 31 or magic_type == 32 or magic_type == 33 or magic_type == 35 or magic_type == 36 or magic_type == 37 or magic_type == 39 or magic_type == 40 or magic_type == 41 or magic_type == 42 or magic_type == 43 or magic_type == 44 or magic_type == 47 then
                     ExecEventHalfBlend("W_Idle", blend_type)
                 else
@@ -14102,7 +14333,7 @@ function MagicFireRight_Upper_onUpdate()
         act("魔法ID切り替え無効")
     end
     SetVariable("IndexThrowHand", HAND_RIGHT)
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if MagicCommonFunction(ALLBODY, QUICKTYPE_NORMAL) == TRUE then
         return 
     elseif HalfBlendUpperCommonFunction(lower_state) == TRUE then
@@ -14120,7 +14351,7 @@ function MagicFireRight2_Upper_onUpdate()
         act("魔法ID切り替え無効")
     end
     SetVariable("IndexThrowHand", HAND_RIGHT)
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if MagicCommonFunction(ALLBODY, QUICKTYPE_NORMAL) == TRUE then
         return 
     elseif HalfBlendUpperCommonFunction(lower_state) == TRUE then
@@ -14138,7 +14369,7 @@ function MagicFireRight3_Upper_onUpdate()
         act("魔法ID切り替え無効")
     end
     SetVariable("IndexThrowHand", HAND_RIGHT)
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if MagicCommonFunction(ALLBODY, QUICKTYPE_NORMAL) == TRUE then
         return 
     elseif HalfBlendUpperCommonFunction(lower_state) == TRUE then
@@ -14156,7 +14387,7 @@ function MagicFireRightLvl2_Upper_onUpdate()
         act("魔法ID切り替え無効")
     end
     SetVariable("IndexThrowHand", HAND_RIGHT)
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if MagicCommonFunction(ALLBODY, QUICKTYPE_NORMAL) == TRUE then
         return 
     elseif HalfBlendUpperCommonFunction(lower_state) == TRUE then
@@ -14335,7 +14566,7 @@ function MagicFireLeft_Upper_onUpdate()
         act("魔法ID切り替え無効")
     end
     SetVariable("IndexThrowHand", HAND_LEFT)
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if MagicCommonFunction(ALLBODY, QUICKTYPE_NORMAL) == TRUE then
         return 
     elseif HalfBlendUpperCommonFunction(lower_state) == TRUE then
@@ -14353,7 +14584,7 @@ function MagicFireLeft2_Upper_onUpdate()
         act("魔法ID切り替え無効")
     end
     SetVariable("IndexThrowHand", HAND_LEFT)
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if MagicCommonFunction(ALLBODY, QUICKTYPE_NORMAL) == TRUE then
         return 
     elseif HalfBlendUpperCommonFunction(lower_state) == TRUE then
@@ -14371,7 +14602,7 @@ function MagicFireLeft3_Upper_onUpdate()
         act("魔法ID切り替え無効")
     end
     SetVariable("IndexThrowHand", HAND_LEFT)
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if MagicCommonFunction(ALLBODY, QUICKTYPE_NORMAL) == TRUE then
         return 
     elseif HalfBlendUpperCommonFunction(lower_state) == TRUE then
@@ -14389,7 +14620,7 @@ function MagicFireLeftLvl2_Upper_onUpdate()
         act("魔法ID切り替え無効")
     end
     SetVariable("IndexThrowHand", HAND_LEFT)
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if MagicCommonFunction(ALLBODY, QUICKTYPE_NORMAL) == TRUE then
         return 
     elseif HalfBlendUpperCommonFunction(lower_state) == TRUE then
@@ -14403,7 +14634,7 @@ end
 
 function QuickMagicFireRightNormal_Upper_onUpdate()
     local blend_type, lower_state = GetHalfBlendInfo()
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if lower_state == LOWER_TURN or lower_state == LOWER_END_TURN then
         act("魔法ID切り替え無効")
     end
@@ -14425,7 +14656,7 @@ end
 
 function QuickMagicFireRightDash_Upper_onUpdate()
     act("ロックオン中角度固定解除")
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     local blend_type, lower_state = GetHalfBlendInfo()
     if lower_state == LOWER_TURN or lower_state == LOWER_END_TURN then
         act("魔法ID切り替え無効")
@@ -14443,7 +14674,7 @@ end
 
 function QuickMagicFireRightStep_Upper_onUpdate()
     local blend_type, lower_state = GetHalfBlendInfo()
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if lower_state == LOWER_TURN or lower_state == LOWER_END_TURN then
         act("魔法ID切り替え無効")
     end
@@ -14460,7 +14691,7 @@ end
 
 function QuickMagicFireRightAttackRight_Upper_onUpdate()
     local blend_type, lower_state = GetHalfBlendInfo()
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if lower_state == LOWER_TURN or lower_state == LOWER_END_TURN then
         act("魔法ID切り替え無効")
     end
@@ -14477,7 +14708,7 @@ end
 
 function QuickMagicFireRightAttackRight2_Upper_onUpdate()
     local blend_type, lower_state = GetHalfBlendInfo()
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if lower_state == LOWER_TURN or lower_state == LOWER_END_TURN then
         act("魔法ID切り替え無効")
     end
@@ -14494,7 +14725,7 @@ end
 
 function QuickMagicFireRightAttackLeft_Upper_onUpdate()
     local blend_type, lower_state = GetHalfBlendInfo()
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if lower_state == LOWER_TURN or lower_state == LOWER_END_TURN then
         act("魔法ID切り替え無効")
     end
@@ -14511,7 +14742,7 @@ end
 
 function QuickMagicFireRightAttackLeft2_Upper_onUpdate()
     local blend_type, lower_state = GetHalfBlendInfo()
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if lower_state == LOWER_TURN or lower_state == LOWER_END_TURN then
         act("魔法ID切り替え無効")
     end
@@ -14528,7 +14759,7 @@ end
 
 function QuickMagicFireLeftNormal_Upper_onUpdate()
     local blend_type, lower_state = GetHalfBlendInfo()
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if lower_state == LOWER_TURN or lower_state == LOWER_END_TURN then
         act("魔法ID切り替え無効")
     end
@@ -14551,7 +14782,7 @@ end
 function QuickMagicFireLeftDash_Upper_onUpdate()
     act("ロックオン中角度固定解除")
     local blend_type, lower_state = GetHalfBlendInfo()
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if lower_state == LOWER_TURN or lower_state == LOWER_END_TURN then
         act("魔法ID切り替え無効")
     end
@@ -14568,7 +14799,7 @@ end
 
 function QuickMagicFireLeftStep_Upper_onUpdate()
     local blend_type, lower_state = GetHalfBlendInfo()
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if lower_state == LOWER_TURN or lower_state == LOWER_END_TURN then
         act("魔法ID切り替え無効")
     end
@@ -14585,7 +14816,7 @@ end
 
 function QuickMagicFireLeftAttackRight_Upper_onUpdate()
     local blend_type, lower_state = GetHalfBlendInfo()
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if lower_state == LOWER_TURN or lower_state == LOWER_END_TURN then
         act("魔法ID切り替え無効")
     end
@@ -14602,7 +14833,7 @@ end
 
 function QuickMagicFireLeftAttackRight2_Upper_onUpdate()
     local blend_type, lower_state = GetHalfBlendInfo()
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if lower_state == LOWER_TURN or lower_state == LOWER_END_TURN then
         act("魔法ID切り替え無効")
     end
@@ -14619,7 +14850,7 @@ end
 
 function QuickMagicFireLeftAttackLeft_Upper_onUpdate()
     local blend_type, lower_state = GetHalfBlendInfo()
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if lower_state == LOWER_TURN or lower_state == LOWER_END_TURN then
         act("魔法ID切り替え無効")
     end
@@ -14636,7 +14867,7 @@ end
 
 function QuickMagicFireLeftAttackLeft2_Upper_onUpdate()
     local blend_type, lower_state = GetHalfBlendInfo()
-    PauseFPAfterCast()
+    ApplyEffectsAfterCast()
     if lower_state == LOWER_TURN or lower_state == LOWER_END_TURN then
         act("魔法ID切り替え無効")
     end
@@ -17412,6 +17643,20 @@ function SpeedUpdate()
         stick_level = 0.5
     end
     
+    -- Restraint: Sprint
+    if env(1116, 112921) == TRUE then
+        if stick_level > 1 then
+            stick_level = 1
+        end
+    end
+    
+    -- Restraint: Run
+    if env(1116, 112922) == TRUE then
+        if stick_level > 0.5 then
+            stick_level = 0.5
+        end
+    end
+    
     if 1.10000002384186 < stick_level then
         if GetVariable("MoveType") == 3 then
             act("ロックオン中角度固定解除")
@@ -17452,17 +17697,45 @@ function Update()
     UpdateFP()
     UpdateBloodthirstCharges()
     UpdateImpermanenceCurseEffect()
-    UpdatePsychedelicElixirEffect()
+    PsychedelicPhantomEffect()
+    PsychedelicTintEffect()
     UpdateVitalityMasteryEffect()
     UpdateHawkRingEffect()
     UpdateCatalystAffinityEffect()
     
     -- Rings
     UpdateSigilEffect()
-    UpdateBulletRingEffect(112160, 112161)
-    UpdateBulletRingEffect(112162, 112163)
-    UpdateBulletRingEffect(112164, 112165)
-    UpdateBulletRingEffect(112166, 112167)
+    UpdateYoungDragonRingEffect()
+    UpdateGreatSwampRingEffect()
+    UpdateMornesRingEffect()
+    UpdateDeepRingEffect()
+    
+    -- Lifegem
+    UpdateStackableItem(116000, 116001, 116002, 116003, 116004, 116005, -1, -1, -1, -1, -1) 
+    
+    -- Radiant Lifegem
+    UpdateStackableItem(116010, 116011, 116012, 116013, 116014, 116015, -1, -1, -1, -1, -1) 
+    
+    -- Old Radiant Lifegem
+    UpdateStackableItem(116020, 116021, 116022, 116023, 116024, 116025, -1, -1, -1, -1, -1) 
+    
+    -- Elizabeth Mushroom
+    UpdateStackableItem(116030, 116031, 116032, 116033, 116034, 116035, -1, -1, -1, -1, -1) 
+    
+    -- Dried Root 
+    UpdateStackableItem(116040, 116041, 116042, 116043, 116044, 116045, -1, -1, -1, -1, -1) 
+    
+    -- Brightbug
+    UpdateStackableItem(116050, 116051, 116052, 116053, -1, -1, -1, -1, -1, -1, -1) 
+    
+    -- Tarnished Coin
+    UpdateStackableItem(116060, 116061, 116062, 116063, -1, -1, -1, -1, -1, -1, -1)  
+    
+    -- Cursed Tarnished Coin
+    UpdateStackableItem(116080, 116081, 116082, 116083, -1, -1, -1, -1, -1, -1, -1) 
+    
+    -- Henbane
+    UpdateHenbaneEffect()
     
     UpdateOldMonkState()
     act(101, FALSE)
@@ -17589,6 +17862,48 @@ function IsFistOfGratia()
     return FALSE
 end
 
+function UpdateStackableItem(trg_eff, sk_eff_1, sk_eff_2, sk_eff_3, sk_eff_4, sk_eff_5, sk_eff_6, sk_eff_7, sk_eff_8, sk_eff_9, sk_eff_10)
+    -- Trigger effect
+    if env(1116, trg_eff) == TRUE then
+        -- Add stacks, or just fresh first instance if at limit
+        if env(1116, sk_eff_1) == FALSE then
+            act(2002, sk_eff_1)
+        elseif sk_eff_2 ~= -1 and env(1116, sk_eff_2) == FALSE then
+            act(2002, sk_eff_2)
+        elseif sk_eff_3 ~= -1 and env(1116, sk_eff_3) == FALSE then
+            act(2002, sk_eff_3)
+        elseif sk_eff_4 ~= -1 and  env(1116, sk_eff_4) == FALSE then
+            act(2002, sk_eff_4)
+        elseif sk_eff_5 ~= -1 and env(1116, sk_eff_5) == FALSE then
+            act(2002, sk_eff_5)
+        elseif sk_eff_6 ~= -1 and env(1116, sk_eff_6) == FALSE then
+            act(2002, sk_eff_6)
+        elseif sk_eff_7 ~= -1 and env(1116, sk_eff_7) == FALSE then
+            act(2002, sk_eff_7)
+        elseif sk_eff_8 ~= -1 and env(1116, sk_eff_8) == FALSE then
+            act(2002, sk_eff_8)
+        elseif sk_eff_9 ~= -1 and env(1116, sk_eff_9) == FALSE then
+            act(2002, sk_eff_9)
+        elseif sk_eff_10 ~= -1 and env(1116, sk_eff_10) == FALSE then
+            act(2002, sk_eff_10)
+        else
+            act(2002, sk_eff_1)
+        end
+    end
+end
+
+function UpdateHenbaneEffect()
+    if env(1116, 116100) == TRUE then
+        if env(1000) > 100 then
+            act(2002, 116103)
+        elseif env(1000) > 10 then
+            act(2002, 116102)
+        elseif env(1000) > 1 then
+            act(2002, 116101)
+        end
+    end
+end
+
 -- FP Regen
 function UpdateFP()
     -- End if AI player
@@ -17600,7 +17915,7 @@ function UpdateFP()
     local skip_base = false
     local cooldown = false
     
-    if env(1116, 113000) == TRUE then
+    if env(1116, 113000) == TRUE or env(1116, 113070) == TRUE then
         cooldown = true
     end
     
@@ -17615,7 +17930,11 @@ function UpdateFP()
         end
         
         if skip == false then
-            act(2002, 113000) -- Base Interval
+            if env(1116, 112622) == TRUE then
+                act(2002, 113070) -- Base Interval
+            else
+                act(2002, 113000) -- Base Interval
+            end
             
             -- Attunement Mastery
             if env(1116, 112430) == TRUE then
@@ -17879,8 +18198,8 @@ function UpdateImpermanenceCurseEffect()
     end
 end
 
--- Psychedelic Elixir
-function UpdatePsychedelicElixirEffect()
+-- Psychedelic Phantom
+function PsychedelicPhantomEffect()
     -- End if AI player
     if env(1007) == TRUE then
         return
@@ -17894,32 +18213,77 @@ function UpdatePsychedelicElixirEffect()
     end
 end
 
-function UpdateBulletRingEffect(trigger_effect, bullet_effect)  
+-- Psychedelic Tint
+function PsychedelicTintEffect()
     -- End if AI player
     if env(1007) == TRUE then
         return
     end
     
-    if env(1116, trigger_effect) == TRUE then
-        if env(1116, 112170) ~= TRUE and env(1116, 112171) ~= TRUE and env(1116, 112172) ~= TRUE and env(1116, 112173) ~= TRUE and env(1116, 112174) ~= TRUE and env(1116, 112175) ~= TRUE then
-            
-            -- Randomise cooldownd duration
-            local roll = math.random(0, 100)
-            if roll >= 0 and roll < 10 then
-                act(2002, 112170)
-            elseif roll >= 10 and roll < 30 then
-                act(2002, 112171)
-            elseif roll >= 30 and roll < 50 then
-                act(2002, 112172)
-            elseif roll >= 50 and roll < 70 then
-                act(2002, 112173)
-            elseif roll >= 70 and roll < 90 then
-                act(2002, 112174)
-            elseif roll >= 90 then
-                act(2002, 112175)
-            end
-            
-            act(2002, bullet_effect) -- Effect
+    if env(1116, 112115) == TRUE then
+        if env(1116, 112116) ~= TRUE then
+            act(2002, 112116) -- Cooldown
+            act(2002, 112117) -- Effect
+        end
+    end
+end
+
+-- Young Dragon Ring
+function UpdateYoungDragonRingEffect()  
+    -- End if AI player
+    if env(1007) == TRUE then
+        return
+    end
+    
+    if env(1116, 112160) == TRUE then
+        if env(1116, 112170) ~= TRUE then
+            act(2002, 112170) -- Timer
+            act(2002, 112161) -- Effect
+        end
+    end
+end
+
+-- Great Swamp Ring
+function UpdateGreatSwampRingEffect()  
+    -- End if AI player
+    if env(1007) == TRUE then
+        return
+    end
+    
+    if env(1116, 112162) == TRUE then
+        if env(1116, 112171) ~= TRUE then
+            act(2002, 112171) -- Timer
+            act(2002, 112163) -- Effect
+        end
+    end
+end
+
+-- Morne's Ring
+function UpdateMornesRingEffect()  
+    -- End if AI player
+    if env(1007) == TRUE then
+        return
+    end
+    
+    if env(1116, 112164) == TRUE then
+        if env(1116, 112172) ~= TRUE then
+            act(2002, 112172) -- Timer
+            act(2002, 112165) -- Effect
+        end
+    end
+end
+
+-- Deep Ring
+function UpdateDeepRingEffect()  
+    -- End if AI player
+    if env(1007) == TRUE then
+        return
+    end
+    
+    if env(1116, 112166) == TRUE then
+       if env(1116, 112173) ~= TRUE then
+            act(2002, 112173) -- Timer
+            act(2002, 112167) -- Effect
         end
     end
 end
@@ -17967,7 +18331,8 @@ function UpdateHawkRingEffect()
     end
     
     -- Assassin's Mark
-    if env(225, hand) == WEAPON_CATEGORY_SMALL_ARROW or env(225, hand) == WEAPON_CATEGORY_LARGE_ARROW or env(225, hand) == WEAPON_CATEGORY_CROSSBOW then
+	local sp_kind = env(345, hand)
+    if env(225, hand) == WEAPON_CATEGORY_SMALL_ARROW or env(225, hand) == WEAPON_CATEGORY_LARGE_ARROW or env(225, hand) == WEAPON_CATEGORY_CROSSBOW or sp_kind == 754 then
     
         -- Hawk Ring 0
         if env(1116, 112480) == TRUE then
@@ -18038,21 +18403,15 @@ function UpdateCatalystAffinityEffect()
     end
 end
 
-function PauseFPAfterCast()
+function ApplyEffectsAfterCast()
     magic_type = env(227)
     
-    ----------------------
-    -- FP Pause
-    ----------------------
-    -- Dart
-    if magic_type == 29 then
-        act(2002, 113001)
-    -- Flashsword
-    elseif magic_type == 30 then
-        act(2002, 113001)
-    -- Default
-    else
-        act(2002, 113003)
+    -- Unstable Catalyst
+    if env(1116, 113522) == FALSE then
+        if env(1116, 113520) == TRUE then
+            act(2002, 113521)
+            act(2002, 113522)
+        end
     end
 end
 
@@ -18163,6 +18522,7 @@ function IsFoolsSigil()
     end
 end
 
+
 ------------------------------------------
 -- Cat's Stuff
 ------------------------------------------
@@ -18209,7 +18569,7 @@ function AttackRightLight3Alt_onUpdate()
        
     local sp_kind = env("装備武器特殊カテゴリ番号取得", hand)
 	
-    if sp_kind == 752 then
+    if sp_kind == 752 or sp_kind == 754 then
         r1 = "W_AttackRightLight4Alt"
     end
 
@@ -18273,6 +18633,10 @@ function AttackRightLightDashAlt_onUpdate()
 	
 	if sp_kind == 752 then
 		r1 = "W_AttackRightLight2Alt"
+	end	
+
+	if sp_kind == 754 then
+		r1 = "W_AttackRightLight3Alt"   
 	end		
 	
     if IsWarcrySpAtk() == TRUE then
@@ -18324,8 +18688,10 @@ function AttackRightHeavy2StartAlt_onUpdate()
     elseif env(1108, ACTION_ARM_R2) <= 0 and env(1116, 100280) == TRUE then -- ActionDuration 
         ExecEventAllBody("W_AttackRightHeavy2EndAlt")
         return		
-    else
-        return 
+    elseif env(1116, 100710) == TRUE then
+        ExecEventAllBody("W_AttackRightHeavySpecial1SubStart")
+        return
+	else
     end
 end
 
@@ -18351,6 +18717,10 @@ function AttackRightLightStepAlt_onUpdate()
     if IsWarcrySpAtk() == TRUE then
         r2 = "W_AttackRightHeavySpecial1SubStart"
     end		
+	
+	if sp_kind == 754 then
+		r1 = "W_AttackRightLight2Alt"
+	end	
     
     if AttackCommonFunction(r1, r2, "W_AttackLeftLight1", "W_AttackLeftHeavy1", "W_AttackBothLight1", "W_AttackBothHeavy1Start", FALSE, TRUE) == TRUE then
         return 
@@ -18373,7 +18743,11 @@ function AttackBothLight1Alt_onUpdate()
 	
     if IsWarcrySpAtk() == TRUE then
         b2 = "W_AttackBothHeavySpecial2Start"
-    end		
+    end	
+
+	if sp_kind == 754 then 
+		l1 = "W_AttackBothLeft1"
+	end	
 	
     if AttackCommonFunction("W_AttackRightLight2", "W_AttackRightHeavy1Start", l1, "W_AttackLeftHeavy1", b1, b2, FALSE, TRUE) == TRUE then
         return 
@@ -18397,7 +18771,11 @@ function AttackBothLight2Alt_onUpdate()
 
     if IsWarcrySpAtk() == TRUE then
         b2 = "W_AttackBothHeavySpecial2Start"
-    end			
+    end	
+
+	if sp_kind == 754 then 
+		l1 = "W_AttackBothLeft1"
+	end	
     
     if AttackCommonFunction("W_AttackRightLight3", "W_AttackRightHeavy1Start", l1, "W_AttackLeftHeavy1", b1, b2, FALSE, TRUE) == TRUE then
         return 
@@ -18419,10 +18797,13 @@ function AttackBothLight3Alt_onUpdate()
 
     local sp_kind = env("装備武器特殊カテゴリ番号取得", hand)
     	
-	if sp_kind == 752 then
+	if sp_kind == 752 or sp_kind == 754 or sp_kind == 751 then
 		b1 = "W_AttackBothLight4Alt"
 	end
 	
+	if sp_kind == 754 then 
+		l1 = "W_AttackBothLeft1"
+	end		
     if IsWarcrySpAtk() == TRUE then
         b2 = "W_AttackBothHeavySpecial2Start"
     end			   	
@@ -18451,6 +18832,10 @@ function AttackBothLight4Alt_onUpdate()
         b2 = "W_AttackBothHeavySpecial2Start"
     end	
 	
+	if sp_kind == 754 then
+		b1 = "W_AttackBothLight5Alt"
+		l1 = "W_AttackBothLeft1"		
+	end	
     if AttackCommonFunction("W_AttackRightLight2", "W_AttackRightHeavy1Start", l1, "W_AttackLeftHeavy1", b1, b2, FALSE, TRUE) == TRUE then
         return 
     else
@@ -18474,6 +18859,10 @@ function AttackBothLight5Alt_onUpdate()
     if IsWarcrySpAtk() == TRUE then
         b2 = "W_AttackBothHeavySpecial2Start"
     end		
+	
+	if sp_kind == 754 then 
+		l1 = "W_AttackBothLeft1"
+	end	
 
     if AttackCommonFunction("W_AttackRightLight2", "W_AttackRightHeavy1Start", l1, "W_AttackLeftHeavy1", b1, b2, FALSE, TRUE) == TRUE then
         return 
@@ -18501,8 +18890,9 @@ function AttackBothHeavy1StartAlt_onUpdate()
     elseif env(1108, ACTION_ARM_R2) <= 0 and env(1116, 100280) == TRUE then
         ExecEventAllBody("W_AttackBothHeavy1EndAlt")
         return 
-    else
-        return 
+    elseif env(1116, 100715) == TRUE then
+        ExecEventAllBody("W_AttackBothHeavySpecial1SubStart")
+        return 	 
     end
 end
 
@@ -18546,7 +18936,7 @@ function AttackBothDashAlt_onUpdate()
 	
 	local sp_kind = env("装備武器特殊カテゴリ番号取得", hand)
 	    	
-	if sp_kind == 752 then
+	if sp_kind == 752 or sp_kind == 751 then
 		b1 = "W_AttackBothLight2Alt"
 	end		
 	
@@ -18576,7 +18966,15 @@ function AttackBothLightStepAlt_onUpdate()
 	
     if IsWarcrySpAtk() == TRUE then
         b2 = "W_AttackBothHeavySpecial1SubStart"
-    end		
+    end	
+
+	if sp_kind == 754 then
+		b1 = "W_AttackBothLight2Alt"
+	end	
+
+	if sp_kind == 751 then
+		b1 = "W_AttackBothLight4Alt"
+	end		
 	
     if AttackCommonFunction("W_AttackRightLight1", "W_AttackRightHeavy1Start", l1, "W_AttackLeftHeavy1", b1, b2, FALSE, TRUE) == TRUE then
         return 
